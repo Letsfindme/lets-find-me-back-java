@@ -31,8 +31,7 @@ public class PostContent implements Serializable {
     @Column(name = "video_url")
     private String videoMUrl;
 
-    @OneToOne
-    @JoinColumn(name = "post_id")
+    @Column(name = "post_id")
     private Post post;
 
 
