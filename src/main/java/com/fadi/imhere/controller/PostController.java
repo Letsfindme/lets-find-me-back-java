@@ -1,7 +1,7 @@
 package com.fadi.imhere.controller;
 
 import com.fadi.imhere.dtos.PostDto;
-import com.fadi.imhere.service.PostService;
+import com.fadi.imhere.service.PostServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,17 +15,16 @@ import java.util.UUID;
 public class PostController {
 
     @Autowired
-    private PostService postService;
+    private PostServiceImp postService;
 
     /**
      * Get all posts by user
-     * @param userId
      * @return
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    public List<PostDto> findAll(@RequestParam("user-id") UUID userId) {
-        return postService.findAll(userId);
+    public List<PostDto> findAll() {
+        return postService.findAll();
     }
 
     @RequestMapping(value = "/{id-post}", method = RequestMethod.GET)
@@ -43,7 +42,7 @@ public class PostController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public PostDto createPost(@RequestBody PostDto postDto) {
-        if(postDto.getUser() == null) {
+        if(postDto.getUsername() == null) {
             throw new InvalidParameterException("No author");
         }
         return postService.createPost(postDto);

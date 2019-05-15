@@ -1,39 +1,69 @@
 package com.fadi.imhere.service;
 
 
+import com.fadi.imhere.config.services.UserPrinciple;
 import com.fadi.imhere.dtos.UserDto;
 import com.fadi.imhere.repository.UserRepository;
 import com.fadi.imhere.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service("userService")
-public class UserServiceImpl implements UserDetailsService, UserService {
-
-
+public class UserServiceImp implements UserDetailsService, UserService {
 
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    private BCryptPasswordEncoder bcryptEncoder;
+    private PasswordEncoder passwordEncoder;
 
+    //@Override
+    public UserDetails loadUserByUsername0(String username) throws UsernameNotFoundException {
+        return userRepository
+                .findByUsername(username)
+                .map(u -> new org.springframework.security.core.userdetails.User(
+                        u.getUsername(),
+                        u.getPassword(),
+                        u.isActive(),
+                        u.isActive(),
+                        u.isActive(),
+                        u.isActive(),
+                        AuthorityUtils.createAuthorityList(
+                                u.getRoles()
+                                        .stream()
+                                        .map(r -> "ROLE_" + r.getName())
+                                        .collect(Collectors.toList())
+                                        .toArray(new String[]{}))))
+                .orElseThrow(() -> new UsernameNotFoundException("No user with "
+                        + "the name " + username + "was found in the database"));
+    }
+
+    public void save(User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-        if(user == null){
-            throw new UsernameNotFoundException("Invalid username or password.");
-        }
-        return new org.springframework.security.core.userdetails.User(user.getUid(), user.getPassword(), getAuthority());
+
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new UsernameNotFoundException("User Not Found with -> username or email : " + username));
+
+        return UserPrinciple.build(user);
     }
 
     private List<SimpleGrantedAuthority> getAuthority() {
@@ -46,22 +76,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return list;
     }
 
-    @Override
-    public void delete(int id) {
-
-    }
-
-
     public void delete(UUID id) {
         userRepository.deleteById(id);
     }
 
-    @Override
-    public User findOne(String username) {
-        return userRepository.findByUsername(username);
-    }
 
-    @Override
     public User findById(int id) {
         return null;
     }
@@ -71,7 +90,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return optionalUser.isPresent() ? optionalUser.get() : null;
     }
 
-    @Override
+
     public UserDto update(UserDto userDTO) {
         return null;
     }
@@ -86,7 +105,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return userDTO;
     }
 */
-    @Override
+
+/*
     public User save(UserDto user) {
         User newUser = new User();
         newUser.setFirstName(user.getFirstName());
@@ -99,7 +119,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 
 
-    /*
+
     @Override
     public void createUserAccount(UserDto accountDto) {
         final User user = new User();
