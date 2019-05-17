@@ -37,8 +37,8 @@ public class PostServiceImp implements PostService {
         Optional<User> user = userRepository.findById(userId);
         if (user != null) {
             post.setUser(user.get());
-            Post PostSaved = postRepository.save(post);
-            postToReturn = DtoUtils.convertPostToDto(PostSaved);
+            Post savedPost = postRepository.save(post);
+            postToReturn = DtoUtils.convertPostToDto(savedPost);
         }
         return postToReturn;
     }

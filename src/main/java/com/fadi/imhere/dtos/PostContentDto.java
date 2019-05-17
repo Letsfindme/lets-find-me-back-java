@@ -9,13 +9,13 @@ import lombok.*;
 @AllArgsConstructor
 public class PostContentDto {
 
-    private String id;
+    private String  id;
 
     private String title;
 
     private String text;
 
-    private String videoMUrl;
+    private String videoUrl;
 
     private PostDto postDto;
 
