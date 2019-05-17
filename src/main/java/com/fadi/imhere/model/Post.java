@@ -29,9 +29,9 @@ public class Post implements Serializable {
     @Column(name = "title", length = 32)
     private String title;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @Column(name = "content", length = 1024)
-    private List<PostContent> postContents;
+    private List<PostContent> postContent;
 
     @Column(name = "view_count")
     private int viewCounter;
