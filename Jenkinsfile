@@ -25,7 +25,11 @@ pipeline {
             steps {
                 sh 'gradle build'
                 sh 'pwd'
+<<<<<<< HEAD
                 sh 'ls build/libs'
+=======
+                sh 'ls'
+>>>>>>> jenkinsfile
             }
         }
         stage('Dockerize') {
