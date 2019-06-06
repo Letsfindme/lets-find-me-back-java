@@ -16,12 +16,16 @@ pipeline {
         }
         stage('Clone repository') {
             steps {
+                sh 'pwd'
+                sh 'ls'
                 checkout scm
             }
         }
         stage('GradleBuild') {
             steps {
                 sh 'gradle build'
+                sh 'pwd'
+                sh 'ls build/libs'
             }
         }
         stage('Dockerize') {
@@ -29,6 +33,8 @@ pipeline {
                 dockerfile true
             }
             steps {
+                sh 'pwd'
+                sh 'ls'
                 sh 'gradle --version'
             }
         }
