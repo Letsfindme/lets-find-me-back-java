@@ -1,19 +1,11 @@
 pipeline {
-    agent any
+    agent {
+                    dockerfile true
+                }
     tools {
-        gradle "gradle-4.10.2"
+        gradle "gradle-5"
     }
     stages {
-        stage('Gradle v') {
-            steps {
-                sh 'gradle --version'
-            }
-        }
-        stage('docker v') {
-            steps {
-                sh 'docker --version'
-            }
-        }
         stage('Clone repository') {
             steps {
                 sh 'pwd'
@@ -25,6 +17,8 @@ pipeline {
             steps {
                 sh 'gradle build'
                 sh 'pwd'
+                sh 'ls -la'
+                sh 'ls '
                 sh 'ls build/libs'
             }
         }
