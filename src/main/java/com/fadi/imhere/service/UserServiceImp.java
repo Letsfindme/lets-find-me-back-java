@@ -95,6 +95,10 @@ public class UserServiceImp implements UserDetailsService, UserService {
         return null;
     }
 
+    public Optional<User> getProfile(String username) {
+        return userRepository.findByUsername(username);
+    }
+
     /*@Override
     public UserDto update(UserDto userDTO) {
         User user = findById(userDTO.getId());

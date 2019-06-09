@@ -1,6 +1,11 @@
 package com.fadi.imhere.controller;
 
+import com.fadi.imhere.model.User;
+import com.fadi.imhere.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -8,23 +13,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
 
+    @Autowired
+    UserService userService;
 
-
-
-
-
-
-    /*
-
-
-
-    @GetMapping("/user")
-    public List<User> displayRegister() {
-
-        return userService.findAll();
+    @GetMapping("/profile/{username}")
+    public Optional<User> getProfile(@PathVariable String username) {
+        System.out.println(username);
+        return userService.getProfile(username);
     }
 
-
+/*
     @GetMapping("/user/{ID}")
     ResponseEntity<User> getUserById(@PathVariable long ID) {
         User user = userRepository.findOne(ID);
@@ -43,9 +41,9 @@ public class UserController {
 
 
         return userRepository.save(user);
-    }
+    }*/
 
-    */
+
 
 
 }

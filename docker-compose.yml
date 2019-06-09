@@ -1,0 +1,24 @@
+version: "1"
+services:
+  db:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpass
+      - MYSQL_DATABASE=letsdb
+      - MYSQL_USER=letsuser
+      - MYSQL_PASSWORD=letspass
+    ports:
+      - 3300:3306
+  web:
+    image: lets-find-me/letsfind.me
+    depends_on:
+      - db
+    ports:
+      - 8800:8080
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USER=letsuser
+      - DATABASE_PASSWORD=letspass
+      - DATABASE_NAME=letsdb
+      - DATABASE_PORT=3300
+

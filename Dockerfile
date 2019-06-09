@@ -6,8 +6,11 @@ WORKDIR /home/gradle/src
 RUN gradle build
 
 FROM openjdk:8-jre-alpine
-EXPOSE 9090:8080
+MAINTAINER Noufal4me@gmail.com
+VOLUME /tmp
+EXPOSE 8080
 WORKDIR /app
-COPY --from=builder /home/gradle/src/build/libs/*.jar app.jar
+COPY --from=builder /home/gradle/src/build/libs/*.jar /app/app.jar
 
-CMD java -jar app.jar
+#CMD java -jar app.jar
+ENTRYPOINT ["java","-jar","app.jar"]
