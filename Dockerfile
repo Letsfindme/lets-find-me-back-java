@@ -9,7 +9,7 @@ FROM openjdk:8-jre-alpine
 MAINTAINER Noufal4me@gmail.com
 #VOLUME /tmp
 EXPOSE 8080
-WORKDIR /app
+#WORKDIR /app
 #COPY --from=builder /home/gradle/src/build/libs/*.jar /app/app.jar
 COPY /build/libs/*.jar app.jar
 ENV doneVar="Hey!! it's finally done"

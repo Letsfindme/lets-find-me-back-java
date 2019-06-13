@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    tools {
+        gradle "gradle"
+    }
     stages {
 
         stage('Checkout') {
@@ -9,33 +11,26 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Gradle Build') {
             steps{
-
                 sh 'echo doneVar = $doneVar'
-                sh 'gradle clean install'
-
+                sh 'gradle clean build'
              }
         }
 
-        stage('Image') {
+        stage('Docker build') {
             steps{
-                def app = docker.build("localhost:5000/letsfind-repo:${env.BUILD_ID}")
-
+                sh 'docker build -t komprator/letsfindme:0.0.1 .'
             }
         }
 
         stage ('Run') {
             steps{
-                def apsp = docker.image("letsfind-repo:${env.BUILD_ID}").run('-p 8085:8080 -h discovery --name discovery')
-                sh 'echo doneVar = $doneVar'
+                script {
+                    sh 'docker run -p 8050:8080 -d --name letscontain komprator/letsfindme:0.0.1'
+                }
             }
         }
 
-        stage ('Final') {
-            steps{
-                build job: 'account-service-pipeline', wait: false
-            }
-        }
     }
 }
