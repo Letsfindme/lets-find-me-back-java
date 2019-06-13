@@ -17,7 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 
 @Entity
-@Table(name = "posts")
+@Table(name = "posts_articles")
 public class Post implements Serializable {
 
     @Id

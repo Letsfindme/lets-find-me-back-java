@@ -1,6 +1,5 @@
 package com.fadi.imhere.model;
 
-import com.fadi.imhere.Utils.ObjectUtils;
 import lombok.*;
 import org.hibernate.annotations.Type;
 
@@ -15,7 +14,7 @@ import java.util.*;
 @AllArgsConstructor
 
 @Entity
-@Table(name = "user")
+@Table(name = "user_details")
 public class User implements Serializable {
 
     @ManyToMany(fetch = FetchType.LAZY)
