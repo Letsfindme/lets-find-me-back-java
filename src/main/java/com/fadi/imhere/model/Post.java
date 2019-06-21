@@ -51,6 +51,13 @@ public class Post implements Serializable {
     private List<PostLike> postLikes;
 
     @OneToMany(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "post_id")
+    private List<PostRate> postRates;
+
+    private boolean liked;
+
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "comments")
     private List<Comment> comments;
+
 }

@@ -22,6 +22,8 @@ public class PostDto {
     private Date creationDate;
     private String username;
     private boolean liked;
+    private int likeCount;
+    private int starCount;
     private int repliesCount;
     private boolean checked;
     private boolean validated;

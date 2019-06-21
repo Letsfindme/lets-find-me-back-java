@@ -53,6 +53,8 @@ public class DtoUtils {
                 postDto.setUsername(post.getUser().getUsername());
             }
         }
+        //postDto.setLikeCount(!post.getPostLikes().isEmpty() ? post.getPostLikes().size() : 0);
+
         return postDto;
     }
 
