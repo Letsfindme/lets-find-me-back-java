@@ -14,7 +14,7 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
    /*
     extends JpaRepository<Post, String>
 
-    List findById(String id);
+    List findAvgById(String id);
 
     List<Void> deleteById(String id);*/
 
@@ -25,6 +25,6 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
     @Query(value = "select avg (rate) from world.post_rate\n" +
             "group by post_id having post_id = :postId",
             nativeQuery=true)
-    Double findById(@Param("postId") String postId);
+    Double findAvgById(@Param("postId") String postId);
 
 }

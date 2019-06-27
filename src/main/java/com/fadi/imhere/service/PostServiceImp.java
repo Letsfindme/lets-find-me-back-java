@@ -2,14 +2,16 @@ package com.fadi.imhere.service;
 
 import com.fadi.imhere.Utils.DtoUtils;
 import com.fadi.imhere.dtos.PostDto;
+import com.fadi.imhere.dtos.PostRateDto;
 import com.fadi.imhere.model.Post;
 
+import com.fadi.imhere.model.PostRate;
 import com.fadi.imhere.model.User;
+import com.fadi.imhere.repository.PostRateRepository;
 import com.fadi.imhere.repository.PostRepository;
 import com.fadi.imhere.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +28,9 @@ public class PostServiceImp implements PostService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private PostRateRepository postRateRepository;
 
     private DtoUtils dtoUtils;
 
@@ -56,17 +61,17 @@ public class PostServiceImp implements PostService {
     }
 
     @Transactional(readOnly = true)
-    public PostDto getPostById(UUID postId, UUID userId) {
-        //Post post = postRepository.findById(postId);
+    public PostDto getPostById(String postId) {
+        Post post = postRepository.findById(UUID.fromString(postId)).get();
         PostDto postDto = null;
 
-        /*
         if (post != null) {
-            postDto = (PostDto) DtoUtils.convertPostToDto(post, userId);
+            postDto = (PostDto) DtoUtils.convertPostToDto(post);
+            addStars(postDto);
         }
         else {
             System.out.println("No post found in data base with the id '{}'"+ postId);
-        }*/
+        }
         return postDto;
     }
 
@@ -78,7 +83,6 @@ public class PostServiceImp implements PostService {
         List<PostDto> postDtoList = new ArrayList<>();
 
         System.out.println("==========================================================");
-        System.out.println(Math.round(postRepository.findById("191e85d7-e867-4060-916c-ded57ed12169")));
 
 
         Stream<PostDto> postDtoStream = postRepository.findPaginated(pageable)
@@ -86,18 +90,32 @@ public class PostServiceImp implements PostService {
                 .map(post -> DtoUtils.convertPostToDto(post));
         postDtoStream.forEach(
                 postDto -> {
-                    Double average = postRepository.findById(postDto.getId().toString());
-                    if (average != null) {
-                        postDto.setStarCount((int) Math.round(average));
-                    } else {
-                        postDto.setStarCount(0);
-                    }
+                    addStars(postDto);
                     postDtoList.add(postDto);
                 }
         );
         return new PageImpl(postDtoList);
     }
 
+
+    public PostDto addStars(PostDto postDto){
+        Double average = postRepository.findAvgById(postDto.getId().toString());
+        if (average != null) {
+            postDto.setStarCount((int) Math.round(average));
+        } else {
+            postDto.setStarCount(0);
+        }
+        return postDto;
+    }
+
+    public PostRate addPostRate(PostRateDto postRateDto) {
+        PostRate postRateToSave = new PostRate();
+        Post post = postRepository.findById(UUID.fromString(postRateDto.getPostid())).get();
+        postRateToSave.setPost(post);
+        postRateToSave.setUser(userRepository.findByUsername(postRateDto.getUsername()).get());
+        postRateToSave.setRate(postRateDto.getRate());
+        return postRateRepository.save(postRateToSave);
+    }
 
 //.filter(post-> !post.getPostRates().isEmpty())
 //    final Page<PostDto> postsPage = new PageImpl(

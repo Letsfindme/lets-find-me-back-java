@@ -1,12 +1,14 @@
 package com.fadi.imhere.service;
 
 
+import com.fadi.imhere.Utils.DtoUtils;
 import com.fadi.imhere.config.services.UserPrinciple;
 import com.fadi.imhere.dtos.UserDto;
 import com.fadi.imhere.repository.UserRepository;
 import com.fadi.imhere.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 public class UserServiceImp implements UserDetailsService, UserService {
 
 
+    @Qualifier("userRepository")
     @Autowired
     private UserRepository userRepository;
 
@@ -62,7 +65,6 @@ public class UserServiceImp implements UserDetailsService, UserService {
 
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException("User Not Found with -> username or email : " + username));
-
         return UserPrinciple.build(user);
     }
 
@@ -91,17 +93,24 @@ public class UserServiceImp implements UserDetailsService, UserService {
     }
 
 
-    public UserDto update(UserDto userDTO) {
-        return null;
+    public UserDto updateProfile(UserDto userDTO) {
+        UserDto userToReturn = null;
+        User userToSave = DtoUtils.convertUserToEntity(userDTO);
+        userRepository.save(userToSave);
+        userToReturn = DtoUtils.convertUserToDto(userToSave);
+        return userToReturn;
     }
 
-    public Optional<User> getProfile(String username) {
-        return userRepository.findByUsername(username);
+    public UserDto getProfile(String username) {
+        UserDto userToReturn = null;
+        userToReturn = DtoUtils.convertUserToDto(userRepository.findByUsername(username).get());
+        return userToReturn;
     }
+
 
     /*@Override
     public UserDto update(UserDto userDTO) {
-        User user = findById(userDTO.getId());
+        User user = findAvgById(userDTO.getId());
         if(user != null) {
             BeanUtils.copyProperties(userDTO, user, "password");
             userRepository.save(user);
@@ -113,8 +122,8 @@ public class UserServiceImp implements UserDetailsService, UserService {
 /*
     public User save(UserDto user) {
         User newUser = new User();
-        newUser.setFirstName(user.getFirstName());
-        newUser.setLastName(user.getLastName());
+        newUser.setFirstname(user.getFirstname());
+        newUser.setLastname(user.getLastname());
         newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
         newUser.setAge(user.getAge());
         return userRepository.save(newUser);
@@ -127,8 +136,8 @@ public class UserServiceImp implements UserDetailsService, UserService {
     @Override
     public void createUserAccount(UserDto accountDto) {
         final User user = new User();
-        user.setName(accountDto.getFirstName());
-        user.setLastName(accountDto.getLastName());
+        user.setName(accountDto.getFirstname());
+        user.setLastname(accountDto.getLastname());
         user.setEmail(accountDto.getEmail());
         user.setPassword(bCryptPasswordEncoder.encode(accountDto.getPassword()));
         user.setBio(accountDto.getBio());

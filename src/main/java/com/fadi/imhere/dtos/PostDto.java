@@ -13,7 +13,6 @@ import java.util.UUID;
 
 public class PostDto {
 
-
     private UUID id;
     private String title;
     private List<PostContentDto> postContent;
@@ -27,6 +26,4 @@ public class PostDto {
     private int repliesCount;
     private boolean checked;
     private boolean validated;
-
-
 }

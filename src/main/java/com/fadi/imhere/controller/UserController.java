@@ -1,5 +1,6 @@
 package com.fadi.imhere.controller;
 
+import com.fadi.imhere.dtos.UserDto;
 import com.fadi.imhere.model.User;
 import com.fadi.imhere.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,14 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/profile/{username}")
-    public Optional<User> getProfile(@PathVariable String username) {
+    public UserDto getProfile(@PathVariable String username) {
         System.out.println(username);
         return userService.getProfile(username);
+    }
+
+    @PostMapping("/profile/")
+    public UserDto updateProfile(@RequestBody UserDto userDto) {
+        return userService.updateProfile(userDto);
     }
 
 /*

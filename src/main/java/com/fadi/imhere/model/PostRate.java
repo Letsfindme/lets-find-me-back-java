@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.UUID;
 
 @Setter
@@ -14,7 +15,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "post_rate")
-public class PostRate {
+public class PostRate implements Serializable {
 
     @Id
     @Type(type="uuid-char")
@@ -22,11 +23,11 @@ public class PostRate {
     @GeneratedValue
     private UUID id;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

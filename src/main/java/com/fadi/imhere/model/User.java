@@ -5,6 +5,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Setter
@@ -26,7 +27,7 @@ public class User implements Serializable {
     private boolean active;
 
     @Id
-    @Type(type="uuid-char")
+    @Type(type = "uuid-char")
     @Column(name = "id")
     @GeneratedValue
     private UUID id;
@@ -34,11 +35,11 @@ public class User implements Serializable {
     @Column(name = "first_name")
     private String firstname;
 
+    @Column(name = "last_name")
+    private String lastname;
+
     @Column
     private String username;
-
-    @Column(name = "last_name")
-    private String lastName;
 
     @Column(name = "first_connection")
     private Date firstConnection;
@@ -46,23 +47,29 @@ public class User implements Serializable {
     @Column(name = "last_connection")
     private Date lastConnection;
 
+
+    private String country;
+
     @Column(name = "avatar")
     private boolean avatar;
 
     @Column //(nullable = false)
     private String password;
 
-    @Column//(nullable = false, length = 20)
-    private  String bio;
+    private String email;
 
-    @Column(name = "mail")
-    private String mail;;
+    private LocalDateTime createdDate;
 
-    private String email;;
-    //private LocalDateTime createdDate;
+    private LocalDateTime birthday;
 
     @Column(name = "age")
     private int age;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Address> address;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<PostRate> postRates;
 
     public User(String firstname, String username, String email, String password) {
         this.firstname = firstname;
@@ -70,8 +77,6 @@ public class User implements Serializable {
         this.email = email;
         this.password = password;
     }
-
-
 
 
 }

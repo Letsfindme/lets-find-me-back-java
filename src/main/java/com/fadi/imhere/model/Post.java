@@ -50,8 +50,7 @@ public class Post implements Serializable {
     @JoinColumn(name = "post_id")
     private List<PostLike> postLikes;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "post_id")
+    @OneToMany(cascade = CascadeType.ALL)
     private List<PostRate> postRates;
 
     private boolean liked;
