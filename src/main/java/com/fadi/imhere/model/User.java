@@ -47,7 +47,6 @@ public class User implements Serializable {
     @Column(name = "last_connection")
     private Date lastConnection;
 
-
     private String country;
 
     @Column(name = "avatar")

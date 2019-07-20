@@ -10,6 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.UUID;
 
+/**
+ * @author Fadi NOUFAL
+ */
 @Setter
 @Getter
 @AllArgsConstructor
@@ -22,4 +25,8 @@ public class Image {
     private UUID id;
 
     private String name;
+
+    public Image(String name) {
+        this.name = name;
+    }
 }

@@ -22,6 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * @author Fadi NOUFAL
+ */
 @Service("userService")
 public class UserServiceImp implements UserDetailsService, UserService {
 
