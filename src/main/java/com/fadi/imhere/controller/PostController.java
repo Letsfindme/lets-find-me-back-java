@@ -1,6 +1,8 @@
 package com.fadi.imhere.controller;
 
 import com.fadi.imhere.dtos.PostDto;
+import com.fadi.imhere.dtos.PostRateDto;
+import com.fadi.imhere.model.PostRate;
 import com.fadi.imhere.service.PostServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,10 +29,11 @@ public class PostController {
         return postService.findAll();
     }
 
-    @RequestMapping(value = "/{id-post}", method = RequestMethod.GET)
+//    , @RequestParam("user-id") UUID userId
+    @RequestMapping(value = "/{postID}", method = RequestMethod.GET)
     @ResponseBody
-    public PostDto getPostById(@PathVariable("id-post") UUID postId, @RequestParam("user-id") UUID userId) {
-        return postService.getPostById(postId, userId);
+    public PostDto getPostById(@PathVariable("postID") String postId) {
+        return postService.getPostById(postId);
     }
 
     /**
@@ -46,6 +49,13 @@ public class PostController {
             throw new InvalidParameterException("No author");
         }
         return postService.createPost(postDto);
+    }
+
+    @RequestMapping(value = "/addRate", method = RequestMethod.POST)
+    @ResponseBody
+    public PostRate addPostRate(@RequestBody PostRateDto postRateDto){
+        System.out.println(postRateDto);
+        return postService.addPostRate(postRateDto);
     }
 
 }

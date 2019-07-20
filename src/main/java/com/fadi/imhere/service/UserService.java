@@ -1,9 +1,11 @@
 package com.fadi.imhere.service;
 
-import com.fadi.imhere.model.User;
 
-import java.util.Optional;
+import com.fadi.imhere.dtos.UserDto;
 
 public interface UserService {
-    Optional<User> getProfile(String username);
+
+    UserDto getProfile(String username);
+
+    UserDto updateProfile(UserDto userDto);
 }

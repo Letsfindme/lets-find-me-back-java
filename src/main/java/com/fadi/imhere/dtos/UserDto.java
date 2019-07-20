@@ -3,6 +3,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @Setter
 @Getter
@@ -10,22 +12,15 @@ import java.util.Date;
 
 public class UserDto {
 
-
-    private String id;
-    private String mail;
-    private String uid;
-    private String firstName;
-    private String lastName;
+    private UUID id;
+    private String email;
+    private String firstname;
+    private String lastname;
     private String country;
     private String username;
-    private String password;
-    private boolean enabled;
-    private int experience;
     private Date firstConnection;
     private Date lastConnection;
-    private Date tosDate;
     private RoleDto role;
     private int age;
-    private  String bio;
-
+    private List<AddressDto> address;
 }

@@ -18,5 +18,4 @@ public class PostContentDto {
     private String videoUrl;
 
     private PostDto postDto;
-
 }
