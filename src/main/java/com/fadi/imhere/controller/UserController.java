@@ -23,7 +23,7 @@ public class UserController {
         return userService.getProfile(username);
     }
 
-    @PostMapping("/profile/")
+    @PutMapping("/profile/")
     public UserDto updateProfile(@RequestBody UserDto userDto) {
         return userService.updateProfile(userDto);
     }

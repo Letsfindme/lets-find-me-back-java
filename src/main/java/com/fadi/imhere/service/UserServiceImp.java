@@ -7,6 +7,7 @@ import com.fadi.imhere.dtos.UserDto;
 import com.fadi.imhere.repository.UserRepository;
 import com.fadi.imhere.model.User;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -97,10 +98,14 @@ public class UserServiceImp implements UserDetailsService, UserService {
 
 
     public UserDto updateProfile(UserDto userDTO) {
+        User currentUser = userRepository.findByUsername(userDTO.getUsername()).get();
+        ModelMapper mm = new ModelMapper();
+        mm.map(userDTO, currentUser);
+
         UserDto userToReturn = null;
-        User userToSave = DtoUtils.convertUserToEntity(userDTO);
-        userRepository.save(userToSave);
-        userToReturn = DtoUtils.convertUserToDto(userToSave);
+//        User userToSave = DtoUtils.convertUserToEntity(userDTO);
+        userRepository.save(currentUser);
+        userToReturn = DtoUtils.convertUserToDto(currentUser);
         return userToReturn;
     }
 
