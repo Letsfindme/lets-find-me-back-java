@@ -58,8 +58,8 @@ public class ImageService {
 
     public void deleteImage(String filename) throws IOException {
 
-		final Image byName = imageRepositoy.findByName(filename);
-		imageRepositoy.delete(byName);
-		Files.deleteIfExists(Paths.get(UPLOAD_ROOT, filename));
+//		final Image byName = imageRepositoy.findByName(filename);
+//		imageRepositoy.delete(byName);
+		Files.deleteIfExists(Paths.get(UPLOAD_ROOT, filename+ ".jpg"));
 	}
 }

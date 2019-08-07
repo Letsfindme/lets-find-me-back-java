@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Setter
@@ -33,6 +34,9 @@ public class PostContent implements Serializable {
 
     @Column(name = "post_id")
     private Post post;
+
+    @Column(name = "images_id")
+    private ArrayList images;
 
 
 }
