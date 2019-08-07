@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
@@ -101,8 +102,10 @@ public class HomeController {
 			imageService.createImage(file, id);
 			final URI locationUri = new URI(servletRequest.getRequestURL().toString() + "/")
 					.resolve(file.getOriginalFilename() + "/raw");
-			return ResponseEntity.created(locationUri)
-					.body("Successfully uploaded " + file.getOriginalFilename());
+
+//			return ResponseEntity.created(locationUri).build();
+			System.out.println("passage");
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (IOException e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Failed to upload " + file.getOriginalFilename() + " => " + e.getMessage());
