@@ -2,6 +2,8 @@ package com.fadi.imhere.dtos;
 
 import lombok.*;
 
+import java.util.List;
+
 @Setter
 @Getter
 @ToString
@@ -18,4 +20,6 @@ public class PostContentDto {
     private String videoUrl;
 
     private PostDto postDto;
+
+    private List<String> images;
 }

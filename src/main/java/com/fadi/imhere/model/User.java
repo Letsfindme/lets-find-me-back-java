@@ -38,7 +38,7 @@ public class User implements Serializable {
     @Column(name = "last_name")
     private String lastname;
 
-    @Column
+    @Column(nullable = false)
     private String username;
 
     @Column(name = "first_connection")
@@ -52,9 +52,10 @@ public class User implements Serializable {
     @Column(name = "avatar")
     private boolean avatar;
 
-    @Column //(nullable = false)
+    @Column (nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String email;
 
     private LocalDateTime createdDate;

@@ -1,12 +1,10 @@
 package com.fadi.imhere.controller;
 
 import com.fadi.imhere.dtos.UserDto;
-import com.fadi.imhere.model.User;
 import com.fadi.imhere.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -23,7 +21,7 @@ public class UserController {
         return userService.getProfile(username);
     }
 
-    @PostMapping("/profile/")
+    @PutMapping("/profile/")
     public UserDto updateProfile(@RequestBody UserDto userDto) {
         return userService.updateProfile(userDto);
     }
