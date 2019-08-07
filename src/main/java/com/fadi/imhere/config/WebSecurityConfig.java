@@ -63,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().and()
 
                 .authorizeRequests()
-                .antMatchers("/api/auth/**","/findPaginated").permitAll()
+                .antMatchers("/api/auth/**","/findPaginated", "/images").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
